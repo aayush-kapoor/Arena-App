@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+}
+
+/* React Select Custom Styles */
+.react-select-container .react-select__control {
+  @apply px-1 py-0.5 rounded-lg shadow-sm border-0 transition-colors;
+  @apply dark:bg-gray-700 dark:text-white;
+  @apply bg-gray-50 text-gray-900;
+}
+
+.react-select-container .react-select__control--is-focused {
+  @apply ring-2 ring-blue-500 ring-opacity-50;
+}
+
+.react-select-container .react-select__menu {
+  @apply rounded-lg shadow-lg mt-1 border-0;
+  @apply dark:bg-gray-700;
+  @apply bg-gray-50;
+}
+
+.react-select-container .react-select__option {
+  @apply px-3 py-2 cursor-pointer;
+  @apply dark:text-white dark:hover:bg-blue-900/50;
+  @apply text-gray-900 hover:bg-gray-100;
+}
+
+.react-select-container .react-select__option--is-selected {
+  @apply bg-blue-600 text-white;
+}
+
+.react-select-container .react-select__value-container {
+  @apply py-0.5;
+}
+
+.react-select-container .react-select__single-value {
+  @apply dark:text-white text-gray-900;
+}
+
+.react-select-container .react-select__input-container {
+  @apply dark:text-white text-gray-900;
+}
+
+.react-select-container .react-select__placeholder {
+  @apply dark:text-gray-400 text-gray-500;
+}
+
+.react-select-container .react-select__indicator {
+  @apply dark:text-gray-400 text-gray-500;
+}
+
+.react-select-container .react-select__indicator-separator {
+  @apply dark:bg-gray-600 bg-gray-300;
+}
