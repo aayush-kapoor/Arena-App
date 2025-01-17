@@ -15,7 +15,7 @@ export function Auth() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/games`,
+          redirectTo: `https://arena-app.vercel.app/games`, // CHANGE THIS LATER ON
           queryParams: {
             access_type: 'offline',
             prompt: 'consent',
