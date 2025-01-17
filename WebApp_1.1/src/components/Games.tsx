@@ -33,14 +33,33 @@ export function Games() {
     try {
       const { data, error } = await supabase
         .from('games')
-        .select('*')
-        .order('date', { ascending: true });
+        .select('*');
 
       if (error) throw error;
       
       if (data) {
         await updateGameStatuses(data);
-        setGames(data);
+        
+        // Sort games: upcoming first (by date), then past games (by most recent)
+        const sortedGames = data.sort((a, b) => {
+          const dateA = new Date(a.date);
+          const dateB = new Date(b.date);
+          const isAUpcoming = !isPast(dateA);
+          const isBUpcoming = !isPast(dateB);
+
+          if (isAUpcoming && !isBUpcoming) return -1;
+          if (!isAUpcoming && isBUpcoming) return 1;
+          
+          // For upcoming games, sort by earliest first
+          if (isAUpcoming && isBUpcoming) {
+            return dateA.getTime() - dateB.getTime();
+          }
+          
+          // For past games, sort by most recent first
+          return dateB.getTime() - dateA.getTime();
+        });
+
+        setGames(sortedGames);
       }
     } catch (error) {
       console.error('Error fetching games:', error);
@@ -71,6 +90,10 @@ export function Games() {
     };
   }, []);
 
+  // Separate games into upcoming and past
+  const upcomingGames = games.filter(game => !isPast(new Date(game.date)));
+  const pastGames = games.filter(game => isPast(new Date(game.date)));
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
@@ -88,15 +111,43 @@ export function Games() {
         )}
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {games.map((game) => (
-          <GameCard 
-            key={game.id} 
-            game={game} 
-            onRegistrationUpdate={fetchGames}
-          />
-        ))}
-      </div>
+      {/* Upcoming Games Section */}
+      {upcomingGames.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+            <span className="inline-block w-2 h-2 rounded-full bg-green-500 mr-2"></span>
+            Upcoming Games
+          </h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {upcomingGames.map((game) => (
+              <GameCard 
+                key={game.id} 
+                game={game} 
+                onRegistrationUpdate={fetchGames}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Past Games Section */}
+      {pastGames.length > 0 && (
+        <section>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+            <span className="inline-block w-2 h-2 rounded-full bg-gray-500 mr-2"></span>
+            Past Games
+          </h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {pastGames.map((game) => (
+              <GameCard 
+                key={game.id} 
+                game={game} 
+                onRegistrationUpdate={fetchGames}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       <CreateGameModal
         isOpen={isCreateModalOpen}
