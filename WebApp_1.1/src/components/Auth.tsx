@@ -19,20 +19,11 @@ export function Auth() {
           queryParams: {
             access_type: 'offline',
             prompt: 'consent',
-          },
-          skipBrowserRedirect: true // Add this line
+          }
         }
       });
       
       if (error) throw error;
-
-      // Add this block to handle the redirect manually
-      const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-        if (event === 'SIGNED_IN' && session) {
-          navigate('/games');
-          authListener?.subscription.unsubscribe();
-        }
-      });
     } catch (error) {
       toast.error('Failed to sign in with Google');
       console.error('Error:', error);
