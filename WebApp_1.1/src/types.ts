@@ -26,3 +26,13 @@ export interface Game {
   created_at: string;
   status: 'upcoming' | 'in_progress' | 'completed' | 'cancelled';
 }
+
+export interface GameMessage {
+  id: string;
+  game_id: string;
+  user_id: string;
+  content: string;
+  created_at: string;
+  updated_at: string;
+  profile?: Profile;
+}

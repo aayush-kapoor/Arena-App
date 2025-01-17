@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { Navigation } from './components/Navigation';
 import { ThemeContext, Theme } from './lib/theme';
 import { Auth } from './components/Auth';
 import { Games } from './components/Games';
+import { MyGames } from './components/MyGames';
 import { Discover } from './components/Discover';
 import { SettingsLayout } from './components/SettingsLayout';
 import { ProfileEditor } from './components/ProfileEditor';
@@ -43,6 +44,10 @@ export default function App() {
               <Route path="/login" element={<Auth />} />
               <Route path="/games" element={<Games />} />
               <Route path="/discover" element={<Discover />} />
+              <Route 
+                path="/my-games" 
+                element={user ? <MyGames /> : <Navigate to="/login" />} 
+              />
               <Route
                 path="/settings"
                 element={
@@ -51,7 +56,7 @@ export default function App() {
                       {activeTab === 'profile' ? <ProfileEditor /> : <DisplaySettings />}
                     </SettingsLayout>
                   ) : (
-                    <Auth />
+                    <Navigate to="/login" />
                   )
                 }
               />

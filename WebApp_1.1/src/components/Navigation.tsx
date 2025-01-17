@@ -1,13 +1,15 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu } from '@headlessui/react';
-import { User, Settings, LogOut } from 'lucide-react';
+import { User, Settings, LogOut, CalendarDays } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../hooks/useAuth';
 import toast from 'react-hot-toast';
+import { cn } from '../lib/utils';
 
 export function Navigation() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, profile } = useAuth();
 
   const handleLogout = async () => {
@@ -21,6 +23,11 @@ export function Navigation() {
       console.error('Error:', error);
     }
   };
+
+  const navLinks = [
+    { href: '/games', label: 'Games' },
+    { href: '/discover', label: 'Discover' },
+  ];
 
   return (
     <nav className="bg-white dark:bg-gray-800 shadow-sm">
@@ -36,24 +43,40 @@ export function Navigation() {
 
             {/* Navigation Links */}
             <div className="hidden sm:ml-8 sm:flex sm:space-x-4">
-              <a
-                href="/games"
-                className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
-              >
-                Games
-              </a>
-              <a
-                href="/discover"
-                className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
-              >
-                Discover
-              </a>
+              {navLinks.map((link) => (
+                <button
+                  key={link.href}
+                  onClick={() => navigate(link.href)}
+                  className={cn(
+                    "px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                    location.pathname === link.href
+                      ? "text-blue-600 dark:text-blue-400"
+                      : "text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
+                  )}
+                >
+                  {link.label}
+                </button>
+              ))}
             </div>
           </div>
 
-          <div className="flex items-center">
+          <div className="flex items-center space-x-4">
+            {user && (
+              <button
+                onClick={() => navigate('/my-games')}
+                className={cn(
+                  "px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                  location.pathname === '/my-games'
+                    ? "text-blue-600 dark:text-blue-400"
+                    : "text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
+                )}
+              >
+                My Games
+              </button>
+            )}
+            
             {user ? (
-              <Menu as="div" className="relative ml-3">
+              <Menu as="div" className="relative">
                 <Menu.Button className="flex rounded-full bg-gray-100 dark:bg-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                   <div className="h-8 w-8 rounded-full overflow-hidden flex items-center justify-center">
                     {profile?.avatar_url ? (
@@ -69,6 +92,19 @@ export function Navigation() {
                 </Menu.Button>
 
                 <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        onClick={() => navigate('/my-games')}
+                        className={`${
+                          active ? 'bg-gray-50 dark:bg-gray-700' : ''
+                        } flex w-full items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200`}
+                      >
+                        <CalendarDays className="mr-3 h-4 w-4" />
+                        My Games
+                      </button>
+                    )}
+                  </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
                       <button
