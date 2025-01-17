@@ -26,7 +26,6 @@ export function Navigation() {
 
   const navLinks = [
     { href: '/games', label: 'Games' },
-    { href: '/discover', label: 'Discover' },
   ];
 
   return (
@@ -61,78 +60,77 @@ export function Navigation() {
           </div>
 
           <div className="flex items-center space-x-4">
-            {user && (
-              <button
-                onClick={() => navigate('/my-games')}
-                className={cn(
-                  "px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                  location.pathname === '/my-games'
-                    ? "text-blue-600 dark:text-blue-400"
-                    : "text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
-                )}
-              >
-                My Games
-              </button>
-            )}
-            
             {user ? (
-              <Menu as="div" className="relative">
-                <Menu.Button className="flex rounded-full bg-gray-100 dark:bg-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <div className="h-8 w-8 rounded-full overflow-hidden flex items-center justify-center">
-                    {profile?.avatar_url ? (
-                      <img
-                        src={profile.avatar_url}
-                        alt={profile.full_name || ''}
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <User className="h-5 w-5 text-gray-400" />
-                    )}
-                  </div>
-                </Menu.Button>
+              <>
+                <button
+                  onClick={() => navigate('/my-games')}
+                  className={cn(
+                    "px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                    location.pathname === '/my-games'
+                      ? "text-blue-600 dark:text-blue-400"
+                      : "text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
+                  )}
+                >
+                  My Games
+                </button>
+                <Menu as="div" className="relative">
+                  <Menu.Button className="flex rounded-full bg-gray-100 dark:bg-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <div className="h-8 w-8 rounded-full overflow-hidden flex items-center justify-center">
+                      {profile?.avatar_url ? (
+                        <img
+                          src={profile.avatar_url}
+                          alt={profile.full_name || ''}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <User className="h-5 w-5 text-gray-400" />
+                      )}
+                    </div>
+                  </Menu.Button>
 
-                <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <button
-                        onClick={() => navigate('/my-games')}
-                        className={`${
-                          active ? 'bg-gray-50 dark:bg-gray-700' : ''
-                        } flex w-full items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200`}
-                      >
-                        <CalendarDays className="mr-3 h-4 w-4" />
-                        My Games
-                      </button>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <button
-                        onClick={() => navigate('/settings')}
-                        className={`${
-                          active ? 'bg-gray-50 dark:bg-gray-700' : ''
-                        } flex w-full items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200`}
-                      >
-                        <Settings className="mr-3 h-4 w-4" />
-                        Settings
-                      </button>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <button
-                        onClick={handleLogout}
-                        className={`${
-                          active ? 'bg-gray-50 dark:bg-gray-700' : ''
-                        } flex w-full items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200`}
-                      >
-                        <LogOut className="mr-3 h-4 w-4" />
-                        Sign out
-                      </button>
-                    )}
-                  </Menu.Item>
-                </Menu.Items>
-              </Menu>
+                  <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          onClick={() => navigate('/my-games')}
+                          className={`${
+                            active ? 'bg-gray-50 dark:bg-gray-700' : ''
+                          } flex w-full items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200`}
+                        >
+                          <CalendarDays className="mr-3 h-4 w-4" />
+                          My Games
+                        </button>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          onClick={() => navigate('/settings')}
+                          className={`${
+                            active ? 'bg-gray-50 dark:bg-gray-700' : ''
+                          } flex w-full items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200`}
+                        >
+                          <Settings className="mr-3 h-4 w-4" />
+                          Settings
+                        </button>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          onClick={handleLogout}
+                          className={`${
+                            active ? 'bg-gray-50 dark:bg-gray-700' : ''
+                          } flex w-full items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200`}
+                        >
+                          <LogOut className="mr-3 h-4 w-4" />
+                          Sign out
+                        </button>
+                      )}
+                    </Menu.Item>
+                  </Menu.Items>
+                </Menu>
+              </>
             ) : (
               <button
                 onClick={() => navigate('/login')}
