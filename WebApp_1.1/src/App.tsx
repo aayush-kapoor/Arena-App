@@ -5,6 +5,7 @@ import { Navigation } from './components/Navigation';
 import { ThemeContext, Theme } from './lib/theme';
 import { Auth } from './components/Auth';
 import { Games } from './components/Games';
+import { Discover } from './components/Discover';
 import { MyGames } from './components/MyGames';
 import { SettingsLayout } from './components/SettingsLayout';
 import { ProfileEditor } from './components/ProfileEditor';
@@ -42,6 +43,7 @@ export default function App() {
             <Routes>
               <Route path="/login" element={<Auth />} />
               <Route path="/games" element={<Games />} />
+              <Route path="/discover" element={<Discover />} />
               <Route 
                 path="/my-games" 
                 element={user ? <MyGames /> : <Navigate to="/login" />} 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu } from '@headlessui/react';
-import { User, Settings, LogOut, CalendarDays } from 'lucide-react';
+import { User, Settings, LogOut, CalendarDays, Map } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../hooks/useAuth';
 import toast from 'react-hot-toast';
@@ -26,6 +26,7 @@ export function Navigation() {
 
   const navLinks = [
     { href: '/games', label: 'Games' },
+    { href: '/discover', label: 'Discover', icon: Map },
   ];
 
   return (
