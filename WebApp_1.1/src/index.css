@@ -64,3 +64,20 @@
 .react-select-container .react-select__indicator-separator {
   @apply dark:bg-gray-600 bg-gray-300;
 }
+
+/* Mapbox Popup Styles */
+.mapboxgl-popup {
+  @apply !shadow-none;
+}
+
+.mapboxgl-popup-content {
+  @apply !p-0 !rounded-xl !shadow-lg !border-0 !bg-transparent;
+}
+
+.mapboxgl-popup-close-button {
+  @apply !hidden;
+}
+
+.mapboxgl-popup-tip {
+  @apply !border-none !shadow-none;
+}
